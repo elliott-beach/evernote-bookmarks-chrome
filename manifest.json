@@ -1,0 +1,16 @@
+{
+  "name": "Evernote-Bookmarks",
+  "version": "0.1",
+  "description": "",
+  "manifest_version": 2,
+  "background": {
+      "page":"background.html"
+  },
+  "content_scripts": [{
+      "matches": ["http://localhost:3000/*  "],
+      "js": ["jquery-3.1.1.min.js", "content.js"]
+  }],
+  "permissions":[
+    "bookmarks"
+  ]
+}
