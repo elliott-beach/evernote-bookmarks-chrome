@@ -1,9 +1,8 @@
 console.log('loaded background script.');
 
 function replyWithTabs(port){
-	console.log(port);
-	port.onMessage.addListener( (message, MessageSender) => {
-		if(message === 'getTabs'){
+	port.onMessage.addListener( (message) => {
+		if(message === 'getBookmarks'){
 			chrome.bookmarks.getTree( (tree) => {
 				port.postMessage({bookmarks: tree});
 			});
