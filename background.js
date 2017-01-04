@@ -1,12 +1,22 @@
-chrome.tabs.create({
-    "url":"http://localhost:3000"
-});
+// chrome.tabs.create({
+//     "url":"http://localhost:3000"
+// });
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
-    if (request.greeting == "hello")
-      sendResponse({farewell: "goodbye"});
-  });
+console.log('loaded background script.');
+ 
+function sayHello(port){ port.postMessage({greeting:"hello"}); }
+
+function replyWithTabs(port){
+	console.log(port);
+	port.onMessage.addListener( (message, MessageSender, sendResponse) => {
+		if(message === 'getTabs'){
+			console.log('soon we will send some tabs');
+			sendResponse(bookmarks);
+		}
+	});
+}
+
+const onConnect = chrome.runtime.onConnect;
+
+onConnect.addListener(sayHello);
+onConnect.addListener(replyWithTabs);
