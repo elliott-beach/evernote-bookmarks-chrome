@@ -1,17 +1,35 @@
 console.log('loaded content script');
 
-// creds to Martin Spier, https://github.com/spiermar/bookmarks2evernote/blob/5b357f7b0efd8e2002b8a000cc06ffd39a09a854/bm2evernote.py#L15-L17
+HOSTNAME = 'https://arcane-mountain-77715.herokuapp.com'
+
+//creds to hgoebl -- http://stackoverflow.com/questions/7918868/how-to-escape-xml-entities-in-javascript
+function escapeXml(unsafe) {
+    return unsafe.replace(/[<>&'"]/g, function (c) {
+        switch (c) {
+            case '<': return '&lt;';
+            case '>': return '&gt;';
+            case '&': return '&amp;';
+            case '\'': return '&apos;';
+            case '"': return '&quot;';
+        }
+    });
+}
+
+// creds to Martin Spier -- https://github.com/spiermar/bookmarks2evernote/blob/5b357f7b0efd8e2002b8a000cc06ffd39a09a854/bm2evernote.py#L15-L17
 class Bookmark {
 	constructor(title, url){
-		this.title = title;
-		this.url = url;
+		this.title = escapeXml(title);
+		this.url = escapeXml(url);
 		// this.tag = tag;
-		this.content = `<a href="${url}">${title}</a>`
+		this.content = `<a href="${this.url}">${title}</a>`
+		console.log(this.content);
 	}
 
-	// @TODO change to post
 	create(){
-		$.get(`http://localhost:3000/create?title=${this.title}&content=${this.content}`);
+		$.post(HOSTNAME+'/create', {
+			title: this.title,
+			content: this.content
+		});
 	}
 }
 
@@ -29,20 +47,17 @@ port.onMessage.addListener( (message) => {
 function process(bookmarks){
 	console.log(bookmarks);
 	bookmarks.forEach(traverse);
+	// traverse({
+	// 	title: 'Test Page',
+	// 	url: 'https://url.with.ampersands?foo=bar&baz=bing'
+	// });
 }
 
 // @TODO add ability to add tags based on bookmark tree.
-STOP = false
 function traverse(treeNode){
-	if(STOP) return;
-
 	if ( treeNode.children) {
 		treeNode.children.forEach(traverse);
 	} else {
-		// @TODO get title of web page (description?)
 		new Bookmark(treeNode.title, treeNode.url).create();
-		console.log(treeNode.url);
-		STOP = true;
 	}
-
 }
