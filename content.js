@@ -1,6 +1,7 @@
 console.log('loaded content script');
 
-HOSTNAME = 'https://arcane-mountain-77715.herokuapp.com'
+const config = require('config.json');
+const HOSTNAME = config.HOSTNAME;
 
 //creds to hgoebl -- http://stackoverflow.com/questions/7918868/how-to-escape-xml-entities-in-javascript
 function escapeXml(unsafe) {
