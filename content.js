@@ -22,7 +22,7 @@ class Bookmark {
 		this.title = escapeXml(title);
 		this.url = escapeXml(url);
 		// this.tag = tag;
-		this.content = `<a href="${this.url}">${title}</a>`
+		this.content = `<a href="${this.url}">${this.title}</a>`
 		console.log(this.content);
 	}
 
