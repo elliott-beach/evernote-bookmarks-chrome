@@ -16,6 +16,8 @@ function escapeXml(unsafe) {
     });
 }
 
+
+
 // creds to Martin Spier -- https://github.com/spiermar/bookmarks2evernote/blob/5b357f7b0efd8e2002b8a000cc06ffd39a09a854/bm2evernote.py#L15-L17
 class Bookmark {
 	constructor(title, url){

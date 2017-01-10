@@ -10,5 +10,14 @@ function replyWithTabs(port){
 	});
 }
 
+function login(){
+	chrome.tabs.create({
+		url: config.HOSTNAME + '/auth'
+	})
+}
+
 const onConnect = chrome.runtime.onConnect;
 onConnect.addListener(replyWithTabs);
+
+// when script loads, log in @TODO change to on button presss
+login();
