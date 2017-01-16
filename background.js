@@ -11,9 +11,8 @@ function replyWithTabs(port){
 }
 
 function login(){
-	chrome.tabs.create({
-		url: config.HOSTNAME + '/auth'
-	})
+	const url = config.HOSTNAME + '/auth';
+	chrome.tabs.create( { url } );
 }
 
 const onConnect = chrome.runtime.onConnect;
