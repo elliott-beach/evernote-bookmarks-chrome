@@ -16,8 +16,6 @@ function escapeXml(unsafe) {
     });
 }
 
-
-
 // creds to Martin Spier -- https://github.com/spiermar/bookmarks2evernote/blob/5b357f7b0efd8e2002b8a000cc06ffd39a09a854/bm2evernote.py#L15-L17
 class Bookmark {
 	constructor(title, url){
@@ -32,28 +30,26 @@ class Bookmark {
 		$.post(HOSTNAME+'/create', {
 			title: this.title,
 			content: this.content
-		});
+		}).fail( (xhr, status, error) => {
+			console.log(xhr);
+			console.log(status);
+			console.log(error);
+		})
 	}
 }
 
-
 const port = chrome.runtime.connect();
-
-port.postMessage('getBookmarks');
 
 port.onMessage.addListener( (message) => {
 	if (message.bookmarks){
 		process(message.bookmarks);
+		//test();
 	}
 });
 
 function process(bookmarks){
 	console.log(bookmarks);
 	bookmarks.forEach(traverse);
-	// traverse({
-	// 	title: 'Test Page',
-	// 	url: 'https://url.with.ampersands?foo=bar&baz=bing'
-	// });
 }
 
 // @TODO add ability to add tags based on bookmark tree.
@@ -64,3 +60,21 @@ function traverse(treeNode){
 		new Bookmark(treeNode.title, treeNode.url).create();
 	}
 }
+
+function main(){
+	port.postMessage('getBookmarks');
+}
+
+function test(){
+	// testing so many bookmarks is just painful, so I will use this.
+	new Bookmark('test', 'http://example.com').create();
+}
+
+
+if (config.test){
+	test();
+} else {
+	main();
+}
+
+

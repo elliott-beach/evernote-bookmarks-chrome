@@ -12,6 +12,7 @@ function replyWithTabs(port){
 
 function login(){
 	const url = config.HOSTNAME + '/auth';
+	// content.js will fire after authentication is complete.
 	chrome.tabs.create( { url } );
 }
 
