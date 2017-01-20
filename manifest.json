@@ -7,7 +7,7 @@
       "page":"background.html"
   },
   "content_scripts": [{
-      "matches": ["https://arcane-mountain-77715.herokuapp.com/bookmarks"],
+      "matches": ["https://arcane-mountain-77715.herokuapp.com/bookmarks", "http://localhost:5000/bookmarks"],
       "js": ["config.js", "jquery-3.1.1.min.js", "content.js"]
   }],
   "permissions":[

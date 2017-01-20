@@ -3,4 +3,4 @@ config = {
 	production: "https://arcane-mountain-77715.herokuapp.com",
 	test: false,
 }
-config.HOSTNAME = config.production;
+config.HOSTNAME = config.test ? config.develop : config.production;
