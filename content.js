@@ -73,7 +73,7 @@ function process(bookmarks){
 // @TODO add ability to add tags based on bookmark tree.
 function traverse(treeNode, results){
 	if ( treeNode.children) {
-		treeNode.children.forEach(traverse);
+		treeNode.children.forEach( b => traverse(b, results));
 	} else {
 		let bookmark = new Bookmark(treeNode.title, treeNode.url);
         results.push(bookmark);
